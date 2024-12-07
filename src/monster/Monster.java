@@ -1,6 +1,8 @@
+package monster;
+
 public interface Monster {
-    long getMAX_HP();
+    int getHpRatio();
     void beAttacked(long damage);
     boolean isAlive();
-    Monster levelUp();
+    void levelUp();
 }
