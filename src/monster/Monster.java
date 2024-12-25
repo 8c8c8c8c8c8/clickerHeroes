@@ -5,4 +5,5 @@ public interface Monster {
     void beAttacked(long damage);
     boolean isAlive();
     void levelUp();
+    long yieldGold();
 }
