@@ -1,6 +1,6 @@
-package gold;
+package org.cccccc.clickerheroes.gold;
 
-import monster.Monster;
+import org.cccccc.clickerheroes.monster.Monster;
 
 public class GoldImpl implements Gold{
     private long gold;

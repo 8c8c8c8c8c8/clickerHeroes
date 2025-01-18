@@ -1,6 +1,6 @@
-package gold;
+package org.cccccc.clickerheroes.gold;
 
-import monster.Monster;
+import org.cccccc.clickerheroes.monster.Monster;
 
 public interface Gold {
     boolean spendGold(long cost);
