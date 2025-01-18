@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+group 'org.cccccc'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+javafx {
+    version = "21"
+    modules = ["javafx.controls", "javafx.fxml"]
+}
+
+application {
+    mainModule = 'org.cccccc.clickerheroes'
+    mainClass = 'org.cccccc.clickerheroes.Main'
+}
