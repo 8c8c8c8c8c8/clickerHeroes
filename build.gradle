@@ -22,3 +22,7 @@ application {
     mainModule = 'org.cccccc.clickerheroes'
     mainClass = 'org.cccccc.clickerheroes.Main'
 }
+
+dependencies {
+    implementation 'com.google.inject:guice:5.0.1'
+}
