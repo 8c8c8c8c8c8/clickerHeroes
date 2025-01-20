@@ -1,6 +1,6 @@
-package hero.heroes;
+package org.cccccc.clickerheroes.hero.heroes.collections;
 
-import hero.AbstractHero;
+import org.cccccc.clickerheroes.hero.AbstractHero;
 
 public class Treebeast extends AbstractHero {
     public Treebeast(long damage, long cost) {
