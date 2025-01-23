@@ -1,4 +1,4 @@
-package monster;
+package org.cccccc.clickerheroes.monster;
 
 public interface Monster {
     int getHpRatio();
@@ -6,4 +6,5 @@ public interface Monster {
     boolean isAlive();
     void levelUp();
     long yieldGold();
+    void goToLevel(long level);
 }
