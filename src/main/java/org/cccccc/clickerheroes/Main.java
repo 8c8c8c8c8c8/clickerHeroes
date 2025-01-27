@@ -1,9 +1,12 @@
 package org.cccccc.clickerheroes;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.cccccc.clickerheroes.di.DIModule;
 
 
 public class Main extends Application {
@@ -20,7 +23,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Injector injector = Guice.createInjector(new DIModule());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("root.fxml"));
+        fxmlLoader.setControllerFactory(injector::getInstance);
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setScene(scene);
         stage.setTitle("ClickerHeroes");
@@ -33,11 +38,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-//        Gold gold = new GoldImpl();
-//        Monster monster = new MonsterImpl();
-//        ClickerHeroesImpl clickerHeroes = new ClickerHeroesImpl(monster, gold);
-//        CLI cli = new CLI(clickerHeroes);
-//        cli.start();
         launch();
     }
 }
