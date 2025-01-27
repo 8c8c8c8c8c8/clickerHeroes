@@ -1,23 +1,17 @@
 package org.cccccc.clickerheroes.clickerHeroes;
 
+import com.google.inject.Inject;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.hero.heroes.Heroes;
 import org.cccccc.clickerheroes.monster.Monster;
 
-public class ClickerHeroesImpl implements ClickerHeroes, Runnable {
-    private final int ONE_SECOND = 1000;
+public class ClickerHeroesImpl implements ClickerHeroes {
     private boolean isRunning = true;
-    private final Monster monster;
-    private final Gold gold;
+    @Inject
+    private Monster monster;
+    @Inject
+    private Gold gold;
 
-    public ClickerHeroesImpl(Monster monster, Gold gold) {
-        this.monster = monster;
-        this.gold = gold;
-    }
-
-    private void printMonsterStatus() {
-        System.out.println(monster);
-    }
     private void allHeroesAttackMonster() {
         for (Heroes hero : Heroes.values()) {
             hero.attack(monster);
@@ -30,26 +24,18 @@ public class ClickerHeroesImpl implements ClickerHeroes, Runnable {
     }
 
     @Override
-    public void run() {
+    public void start() {
         isRunning = true;
-        while (isRunning) {
-            printMonsterStatus();
-            allHeroesAttackMonster();
-            if (!monster.isAlive()) {
-                gold.earnGold(monster);
-                monster.levelUp();
-            }
-            try {
-                Thread.sleep(ONE_SECOND);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     @Override
     public void close() {
         isRunning = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return isRunning;
     }
 
     @Override
@@ -67,4 +53,17 @@ public class ClickerHeroesImpl implements ClickerHeroes, Runnable {
         monster.goToLevel(level);
     }
 
+    @Override
+    public String getMonsterStatus() {
+        return monster.toString();
+    }
+
+    @Override
+    public void runCycle() {
+        allHeroesAttackMonster();
+        if (!monster.isAlive()) {
+            gold.earnGold(monster);
+            monster.levelUp();
+        }
+    }
 }
