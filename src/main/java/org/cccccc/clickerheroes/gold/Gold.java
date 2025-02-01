@@ -4,5 +4,5 @@ import org.cccccc.clickerheroes.monster.Monster;
 
 public interface Gold {
     boolean spendGold(long cost);
-    void earnGold(Monster monster);
+    void beEarned(Monster monster);
 }

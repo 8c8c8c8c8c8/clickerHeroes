@@ -17,7 +17,7 @@ public class GoldImpl implements Gold{
     }
 
     @Override
-    public void earnGold(Monster monster) {
+    public void beEarned(Monster monster) {
         long income = monster.yieldGold();
         this.gold += income;
     }
@@ -28,6 +28,6 @@ public class GoldImpl implements Gold{
 
     @Override
     public String toString() {
-        return String.format("Gold: %d", gold);
+        return String.format("Gold: %,d", gold);
     }
 }
