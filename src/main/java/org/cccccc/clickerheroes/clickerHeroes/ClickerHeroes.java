@@ -1,7 +1,7 @@
 package org.cccccc.clickerheroes.clickerHeroes;
 
 public interface ClickerHeroes {
-    void printGoldStatus();
+    String getGoldStatus();
     void start();
     void close();
     boolean isRunning();
