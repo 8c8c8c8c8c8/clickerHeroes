@@ -12,15 +12,9 @@ public class ClickerHeroesImpl implements ClickerHeroes {
     @Inject
     private Gold gold;
 
-    private void allHeroesAttackMonster() {
-        for (Heroes hero : Heroes.values()) {
-            hero.attack(monster);
-        }
-    }
-
     @Override
-    public void printGoldStatus() {
-        System.out.println(gold);
+    public String getGoldStatus() {
+        return gold.toString();
     }
 
     @Override
@@ -60,9 +54,9 @@ public class ClickerHeroesImpl implements ClickerHeroes {
 
     @Override
     public void runCycle() {
-        allHeroesAttackMonster();
+        Heroes.attack(monster);
         if (!monster.isAlive()) {
-            gold.earnGold(monster);
+            gold.beEarned(monster);
             monster.levelUp();
         }
     }
