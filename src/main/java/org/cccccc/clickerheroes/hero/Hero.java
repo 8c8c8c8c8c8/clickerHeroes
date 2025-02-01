@@ -4,9 +4,7 @@ import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.monster.Monster;
 
 public interface Hero {
-
     void attack(Monster monster);
-
     void levelUp(Gold gold);
     void globalSkill();
     void localSkill();
