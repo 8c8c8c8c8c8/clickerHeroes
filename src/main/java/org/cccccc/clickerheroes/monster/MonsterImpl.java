@@ -49,7 +49,7 @@ public class MonsterImpl implements Monster {
 
     @Override
     public String toString() {
-        return String.format("org.cccccc.clickerheroes.monster hp: %d, level: %d", hp, level);
+        return String.format("hp: %d, level: %d", hp, level);
     }
 
     @Override
