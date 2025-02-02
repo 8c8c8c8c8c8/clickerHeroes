@@ -25,4 +25,5 @@ application {
 
 dependencies {
     implementation 'com.google.inject:guice:5.0.1'
+    implementation 'org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0'
 }
