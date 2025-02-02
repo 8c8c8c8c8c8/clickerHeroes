@@ -1,51 +1,46 @@
-package org.cccccc.clickerheroes.javafx.cli;
+package org.cccccc.clickerheroes.javafx.gui;
 
 import javafx.concurrent.Task;
 import org.cccccc.clickerheroes.clickerHeroes.ClickerHeroes;
+import org.cccccc.clickerheroes.hero.heroes.Heroes;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CLI extends Task<Void> {
+public class ClickerHeroesGui extends Task<Void> {
     private final ClickerHeroes clickerHeroes;
 
-    public CLI(ClickerHeroes clickerHeroes) {
+    public ClickerHeroesGui(ClickerHeroes clickerHeroes) {
         this.clickerHeroes = clickerHeroes;
+    }
+
+    public void runCommand(String input) {
+        if (CLIGameMenu.HeroStatus.equals(input)) {
+            updateMessage(Heroes.getHeroStatus());
+        } else if (CLIGameMenu.GoldStatus.equals(input)) {
+            updateMessage(clickerHeroes.getGoldStatus());
+        } else if (CLIGameMenu.HireHero.equals(input)) {
+//                hireHero();
+        } else if (CLIGameMenu.LevelUpHero.equals(input)) {
+//                levelUpHero();
+        } else if (CLIGameMenu.ActivateHeroSkill.equals(input)) {
+//                activateHeroSkill();
+        } else if (CLIGameMenu.GoToMonsterLevel.equals(input)) {
+//                goToMonsterLevel();
+        } else if (CLIGameMenu.ChangeMode.equals(input)) {
+//                changeMode();
+        } else if (CLIGameMenu.ExitGame.equals(input)) {
+//                exitGame();
+        }
     }
 
     private void sendGameMenuMessage() {
         updateMessage(CLIGameMenuMessage.getGameMenuMessage());
     }
 
-    private void printGameMenu() {
-        int menu = 0;
-//            printMenuMessage();
-        if (CLIGameMenu.HeroStatus.equals(menu)) {
-//                printHeroStatus();
-        } else if (CLIGameMenu.GoldStatus.equals(menu)) {
-//                printGoldStatus();
-        } else if (CLIGameMenu.HireHero.equals(menu)) {
-//                hireHero();
-        } else if (CLIGameMenu.LevelUpHero.equals(menu)) {
-//                levelUpHero();
-        } else if (CLIGameMenu.ActivateHeroSkill.equals(menu)) {
-//                activateHeroSkill();
-        } else if (CLIGameMenu.GoToMonsterLevel.equals(menu)) {
-//                goToMonsterLevel();
-        } else if (CLIGameMenu.ChangeMode.equals(menu)) {
-//                changeMode();
-        } else if (CLIGameMenu.ExitGame.equals(menu)) {
-//                exitGame();
-        }
-    }
-
     @Override
     protected Void call() throws Exception {
-        System.out.println("start cli");
-        for (int i=0;i<10;i++) {
-            sendGameMenuMessage();
-            Thread.sleep(1000);
-        }
+        sendGameMenuMessage();
         return null;
     }
 }
@@ -55,13 +50,19 @@ enum CLIGameMenu {
     ActivateHeroSkill(5), GoToMonsterLevel(6),
     ChangeMode(7), ExitGame(0);
     private final int MENU;
+    private final String MENU2;
 
     CLIGameMenu(int menu) {
         this.MENU = menu;
+        this.MENU2 = String.valueOf(menu);
     }
 
     public boolean equals(int menu) {
         return this.MENU == menu;
+    }
+
+    public boolean equals(String menu) {
+        return this.MENU2.equals(menu);
     }
 }
 
