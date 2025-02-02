@@ -2,33 +2,55 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.TextFlow?>
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<AnchorPane prefHeight="441.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.cccccc.clickerheroes.javafx.RootController">
     <children>
-        <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                   minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-            <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                            style="-fx-background-color: orange;">
+        <Pane>
+            <children>
+                <TextField fx:id="goldStatus" editable="false" prefHeight="55.0" prefWidth="338.0">
+                    <font>
+                        <Font name="Consolas" size="30.0"/>
+                    </font>
+                </TextField>
+                <TextField fx:id="monsterStatus" editable="false" layoutY="51.0" prefHeight="55.0" prefWidth="338.0">
+                    <font>
+                        <Font name="Consolas" size="30.0"/>
+                    </font>
+                </TextField>
+            </children>
+        </Pane>
+        <ScrollPane layoutY="106.0" prefHeight="343.0" prefWidth="338.0">
+            <content>
+                <VBox fx:id="heroesList" prefHeight="342.0" prefWidth="325.0">
                     <children>
-                        <TextArea fx:id="cliOutput" editable="false" prefHeight="363.0" prefWidth="297.0"
-                                  wrapText="true"/>
-                        <TextField fx:id="cliInput" layoutY="361.0" prefHeight="40.0" prefWidth="220.0"/>
-                        <Button fx:id="enter" layoutX="220.0" layoutY="361.0" mnemonicParsing="false" prefHeight="40.0"
-                                prefWidth="78.0" text="enter"/>
-                    </children>
-                </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                    <children>
-                        <TextFlow prefHeight="400.0" prefWidth="296.0">
+                        <HBox prefHeight="53.0" prefWidth="325.0">
                             <children>
-                                <TextArea fx:id="gameOutput" editable="false" prefHeight="398.0" prefWidth="297.0"/>
+                                <Label prefHeight="53.0" prefWidth="220.0" text="Label">
+                                    <styleClass>
+                                        <String fx:value="lbl"/>
+                                        <String fx:value="lbl-default"/>
+                                    </styleClass>
+                                </Label>
+                                <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="64.0" text="Button">
+                                    <styleClass>
+                                        <String fx:value="btn"/>
+                                        <String fx:value="btn-primary"/>
+                                    </styleClass>
+                                </Button>
                             </children>
-                        </TextFlow>
+                            <styleClass>
+                                <String fx:value="h1"/>
+                                <String fx:value="btn-group-horizontal"/>
+                            </styleClass>
+                        </HBox>
                     </children>
-                </AnchorPane>
-            </items>
-        </SplitPane>
+                </VBox>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>
