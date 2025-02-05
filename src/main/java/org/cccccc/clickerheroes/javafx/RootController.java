@@ -1,6 +1,11 @@
 package org.cccccc.clickerheroes.javafx;
 
 import com.google.inject.Inject;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,9 +22,9 @@ import java.util.stream.IntStream;
 
 public class RootController implements Initializable {
     @FXML
-    private TextField goldStatus;
+    private Label goldStatus;
     @FXML
-    private TextField monsterStatus;
+    private Label monsterStatus;
     @FXML
     private VBox heroesList;
     @Inject
@@ -42,12 +47,17 @@ public class RootController implements Initializable {
 
     private void generateHeroItem() {
         HBox container = new HBox();
-        container.setFillHeight(true);
         container.getStyleClass().add("h1");
-        Label heroInfo = new Label("Cid");
-        heroInfo.getStyleClass().setAll("lbl", "lbl-warning");
+        container.setMinWidth(390);
+        container.setMinHeight(100);
         Button levelUpBtn = new Button("LevelUp");
         levelUpBtn.getStyleClass().setAll("btn", "btn-warning");
+        levelUpBtn.setPrefHeight(100);
+        levelUpBtn.setPrefWidth(100);
+        Label heroInfo = new Label("Cid");
+        heroInfo.getStyleClass().setAll("lbl", "lbl-warning");
+        heroInfo.setPrefWidth(290);
+        heroInfo.setPrefHeight(100);
         container.getChildren().add(heroInfo);
         container.getChildren().add(levelUpBtn);
         heroesList.getChildren().add(container);
@@ -57,12 +67,21 @@ public class RootController implements Initializable {
 
     }
 
+    private void sendMessage(String concatenatedMsg) {
+        String[] splitMsgs = concatenatedMsg.split("\\$");
+        String monsterStatusMsg = splitMsgs[0];
+        String goldStatusMsg = splitMsgs[1];
+        monsterStatus.setText(monsterStatusMsg);
+        goldStatus.setText(goldStatusMsg);
+    }
+
     private void runClickerHeroes() {
-        monsterStatus.textProperty().bind(clickerHeroesTask.messageProperty());
+        clickerHeroesTask.messageProperty().addListener((obs, oldMsg, newMsg) -> {
+            sendMessage(obs.getValue());
+        });
         Thread chTask = new Thread(clickerHeroesTask);
         chTask.setDaemon(true);
         chTask.start();
-        System.out.println(chTask.getName());
-        System.out.println(Thread.currentThread() + "********");
+
     }
 }

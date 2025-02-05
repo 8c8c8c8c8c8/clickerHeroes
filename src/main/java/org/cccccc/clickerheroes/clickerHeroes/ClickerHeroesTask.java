@@ -10,11 +10,17 @@ public class ClickerHeroesTask extends Task<Void> {
         this.clickerHeroes = clickerHeroes;
     }
 
+    private String concatMessages() {
+        return String.format("%s$%s",
+                clickerHeroes.getMonsterStatus(),
+                clickerHeroes.getGoldStatus());
+    }
+
     @Override
     protected Void call() throws Exception {
         clickerHeroes.start();
         while (clickerHeroes.isRunning()) {
-            updateMessage(clickerHeroes.getMonsterStatus());
+            updateMessage(concatMessages());
             clickerHeroes.runCycle();
             try {
                 Thread.sleep(ONE_SECOND);
