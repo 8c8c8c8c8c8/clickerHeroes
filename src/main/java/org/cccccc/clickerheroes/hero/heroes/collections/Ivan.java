@@ -8,12 +8,7 @@ public class Ivan extends AbstractHero {
     }
 
     @Override
-    public void globalSkill() {
-
-    }
-
-    @Override
-    public void localSkill() {
+    public void learnSkill(int skillIndex) {
 
     }
 }

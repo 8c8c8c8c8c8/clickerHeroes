@@ -8,12 +8,7 @@ public class Brittany extends AbstractHero {
     }
 
     @Override
-    public void globalSkill() {
-
-    }
-
-    @Override
-    public void localSkill() {
+    public void learnSkill(int skillIndex) {
 
     }
 }
