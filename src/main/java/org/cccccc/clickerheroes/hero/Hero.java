@@ -5,9 +5,8 @@ import org.cccccc.clickerheroes.monster.Monster;
 
 public interface Hero {
     void attack(Monster monster);
-    void levelUp(Gold gold);
-    void globalSkill();
-    void localSkill();
+    void levelUp(Gold gold, int level);
+    void learnSkill(int skillIndex);
     boolean isActive();
-    boolean canBeHired(Gold gold);
+    long getCost(int level);
 }
