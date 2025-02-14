@@ -4,62 +4,65 @@ import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.monster.Monster;
 
 public abstract class AbstractHero implements Hero {
-    protected final long ORIGIN_DAMAGE;
-    protected long damage;
+    private final long BASE_COST;
+    private long baseDamage;
+    private long damage;
+
+    protected final double LEVEL_UP_COST_INC_RATIO = 1.07f;
     protected int level;
-    protected long cost;
-    protected boolean isActive;
-    protected float localDamageIncRate;
-    protected float globalDamageIncRate;
 
     public AbstractHero(long damage, long cost) {
-        this.ORIGIN_DAMAGE = damage;
-        this.level = 1;
+        this.baseDamage = damage;
+        this.level = 0;
         this.damage = damage;
-        this.cost = cost;
-        this.isActive = false;
-        this.localDamageIncRate = 1.0f;
-        this.globalDamageIncRate = 1.0f;
+        this.BASE_COST = cost;
     }
 
     @Override
     public void attack(Monster monster) {
-        if (isActive) {
+        if (isActive()) {
             monster.beAttacked(damage);
         }
     }
 
     @Override
-    public void levelUp(Gold gold) {
-        if (gold.spendGold(cost)) {
-            level++;
+    public void levelUp(Gold gold, int level) {
+        long cost = getCost(level);
+        if (gold.beSpent(cost)) {
+            this.level += level;
             updateDamage();
         }
     }
 
     private void updateDamage() {
-        this.damage = (long) Math.ceil(this.ORIGIN_DAMAGE *
-                localDamageIncRate *
-                globalDamageIncRate) * level;
+        damage = baseDamage * level;
     }
 
     @Override
     public String toString() {
-        return String.format("damage: %d, level: %d, cost: %d",
-                damage, level, cost);
+        return String.format("damage: %d, level: %d", damage, level);
     }
 
     @Override
     public boolean isActive() {
-        return isActive;
+        return level > 0;
+    }
+
+    protected long levelUpCostFormula(int level) {
+        // C = BASE_COST * (LEVEL_UP_COST_INC_RATIO ^ level - 1) / (LEVEL_UP_COST_INC_RATIO - 1)
+        return BASE_COST * (long) Math.floor(
+                (Math.pow(LEVEL_UP_COST_INC_RATIO, level) - 1) / (LEVEL_UP_COST_INC_RATIO - 1)
+        );
     }
 
     @Override
-    public boolean canBeHired(Gold gold) {
-        if (gold.spendGold(cost)) {
-            isActive = true;
-            return true;
+    public long getCost(int level) {
+        long zeroToDesiredLvCost = levelUpCostFormula(this.level + level);
+        if (this.level > 0) {
+            long zeroToCurrentLvCost = levelUpCostFormula(this.level);
+            long currentToDesiredLvCost = zeroToDesiredLvCost - zeroToCurrentLvCost;
+            return currentToDesiredLvCost;
         }
-        return false;
+        return zeroToDesiredLvCost;
     }
 }
