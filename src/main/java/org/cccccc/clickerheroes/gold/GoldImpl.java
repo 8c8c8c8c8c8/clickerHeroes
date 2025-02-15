@@ -8,7 +8,7 @@ public class GoldImpl implements Gold{
         this.gold = 0;
     }
     @Override
-    public boolean spendGold(long cost) {
+    public boolean beSpent(long cost) {
         if (isMoreThanGold(cost)) {
             gold -= cost;
             return true;
@@ -28,6 +28,6 @@ public class GoldImpl implements Gold{
 
     @Override
     public String toString() {
-        return String.format("Gold: %,d", gold);
+        return String.format("%,d", gold);
     }
 }
