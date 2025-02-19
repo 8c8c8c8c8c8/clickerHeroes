@@ -1,7 +1,7 @@
 package org.cccccc.clickerheroes.hero;
 
+import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.gold.Gold;
-import org.cccccc.clickerheroes.monster.Monster;
 
 public abstract class AbstractHero implements Hero {
     private final long BASE_COST;
@@ -16,13 +16,6 @@ public abstract class AbstractHero implements Hero {
         this.level = 0;
         this.damage = damage;
         this.BASE_COST = cost;
-    }
-
-    @Override
-    public void attack(Monster monster) {
-        if (isActive()) {
-            monster.beAttacked(damage);
-        }
     }
 
     @Override
@@ -64,5 +57,10 @@ public abstract class AbstractHero implements Hero {
             return currentToDesiredLvCost;
         }
         return zeroToDesiredLvCost;
+    }
+
+    @Override
+    public void bindToLabel(Label label) {
+        // todo
     }
 }
