@@ -3,7 +3,7 @@ package org.cccccc.clickerheroes.hero.heroes.collections;
 import org.cccccc.clickerheroes.hero.AbstractHero;
 
 public class Brittany extends AbstractHero {
-    public Brittany(long damage, long cost) {
+    public Brittany(String damage, String cost) {
         super(damage, cost);
     }
 

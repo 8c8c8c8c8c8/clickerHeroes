@@ -4,7 +4,7 @@ import org.cccccc.clickerheroes.hero.AbstractHero;
 
 public class Cid extends AbstractHero {
     // starting hero
-    public Cid(long damage, long cost) {
+    public Cid(String damage, String cost) {
         super(damage, cost);
         this.level = 1;
     }

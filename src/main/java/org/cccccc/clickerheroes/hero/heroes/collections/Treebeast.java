@@ -3,17 +3,12 @@ package org.cccccc.clickerheroes.hero.heroes.collections;
 import org.cccccc.clickerheroes.hero.AbstractHero;
 
 public class Treebeast extends AbstractHero {
-    public Treebeast(long damage, long cost) {
+    public Treebeast(String damage, String cost) {
         super(damage, cost);
     }
 
     @Override
-    public void globalSkill() {
-
-    }
-
-    @Override
-    public void localSkill() {
+    public void learnSkill(int skillIndex) {
 
     }
 }
