@@ -5,9 +5,8 @@ public interface ClickerHeroes {
     void start();
     void close();
     boolean isRunning();
-    void hireHero(String name);
-    void levelUpHero(String name);
-    void goToMonsterLevel(long level);
+    void levelUpHero(String heroName, int level);
+    void goToMonsterLevel(int level);
     String getMonsterStatus();
     void runCycle();
 }

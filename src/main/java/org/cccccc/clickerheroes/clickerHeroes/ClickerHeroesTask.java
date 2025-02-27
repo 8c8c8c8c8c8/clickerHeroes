@@ -3,7 +3,6 @@ package org.cccccc.clickerheroes.clickerHeroes;
 import javafx.concurrent.Task;
 
 public class ClickerHeroesTask extends Task<Void> {
-    private final int ONE_SECOND = 1000; // run-cycle per one second
     private final ClickerHeroes clickerHeroes;
 
     public ClickerHeroesTask(ClickerHeroes clickerHeroes) {
@@ -18,12 +17,13 @@ public class ClickerHeroesTask extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
+        int oneSecond = 1000; // run-cycle per one second
         clickerHeroes.start();
         while (clickerHeroes.isRunning()) {
             updateMessage(concatMessages());
             clickerHeroes.runCycle();
             try {
-                Thread.sleep(ONE_SECOND);
+                Thread.sleep(oneSecond);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

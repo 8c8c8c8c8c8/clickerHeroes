@@ -7,10 +7,16 @@ import org.cccccc.clickerheroes.monster.Monster;
 
 public class ClickerHeroesImpl implements ClickerHeroes {
     private boolean isRunning = true;
+    private final Monster monster;
+    private final Gold gold;
+    private final Heroes heroes;
+
     @Inject
-    private Monster monster;
-    @Inject
-    private Gold gold;
+    public ClickerHeroesImpl(Monster monster, Gold gold, Heroes heroes) {
+        this.monster = monster;
+        this.gold = gold;
+        this.heroes = heroes;
+    }
 
     @Override
     public String getGoldStatus() {
@@ -33,17 +39,12 @@ public class ClickerHeroesImpl implements ClickerHeroes {
     }
 
     @Override
-    public void hireHero(String name) {
-
+    public void levelUpHero(String heroName, int level) {
+        heroes.levelUp(heroName, gold, level);
     }
 
     @Override
-    public void levelUpHero(String name) {
-
-    }
-
-    @Override
-    public void goToMonsterLevel(long level) {
+    public void goToMonsterLevel(int level) {
         monster.goToLevel(level);
     }
 
@@ -54,7 +55,7 @@ public class ClickerHeroesImpl implements ClickerHeroes {
 
     @Override
     public void runCycle() {
-        Heroes.attack(monster);
+        heroes.attack(monster);
         if (!monster.isAlive()) {
             gold.beEarned(monster);
             monster.levelUp();
