@@ -6,18 +6,26 @@ import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.datatype.ExpExprPropertyFactory;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.monster.Monster;
+import utils.BindToLabel;
 
-public class HeroesImpl implements Heroes {
+import java.util.Arrays;
+
+public class HeroesImpl implements Heroes, BindToLabel {
     private final ExpExprProperty allHeroesDamage;
 
     @Inject
     public HeroesImpl(ExpExprPropertyFactory expExprPropertyFactory) {
-        this.allHeroesDamage = expExprPropertyFactory.create("allHero");
+        this.allHeroesDamage = expExprPropertyFactory.create("allHeroesDamage");
     }
 
     @Override
     public void levelUp(String name, Gold gold, int level) {
-        // todo
+        for (HeroesList hero : HeroesList.values()) {
+            if (hero.name().equals(name)) {
+                hero.hero().levelUp(gold, level);
+                break;
+            }
+        }
         updateDamage();
     }
 
@@ -27,21 +35,15 @@ public class HeroesImpl implements Heroes {
     }
 
     @Override
-    public void bindToLabel(String name, Label label) {
-        if (name.equals("allHero")) {
-            label.textProperty().bind(allHeroesDamage.asString());
-            return;
-        }
-        for (HeroesList hero: HeroesList.values()) {
-            if (hero.name().equals(name)) {
-//                todo
-            }
-        }
+    public void bindToLabel(Label label) {
+        // todo
     }
 
     @Override
     public void updateDamage() {
-
-        // todo
+        allHeroesDamage.reset();
+        Arrays.stream(HeroesList.values()).forEach(hero -> {
+            // todo
+        });
     }
 }
