@@ -1,79 +1,93 @@
 package org.cccccc.clickerheroes.monster;
 
-public class MonsterImpl implements Monster {
-    private final long START_HP = 10;
-    private long maxHp;
-    private long hp; // current hp
-    private float HP_INCREASE_RATE = 1.55F;
-    private long level;
-    private long maxLevel;
+import javafx.scene.control.Label;
+import org.cccccc.clickerheroes.datatype.ExpExprProperty;
+import utils.BindToLabel;
+
+public class MonsterImpl implements Monster, BindToLabel {
+    private final ExpExprProperty maxHp;
+    private final ExpExprProperty hp; // current hp
+    private int level; // current level
+    private int maxLevel;
 
     public MonsterImpl() {
-        // initial org.cccccc.clickerheroes.monster
-        this.maxHp = 10;
-        this.hp = this.maxHp;
+        // initial monster
+        this.maxHp = new ExpExprProperty("maxHp", MonsterConstInt.baseHp.get());
+        this.hp = new ExpExprProperty("hp", MonsterConstInt.baseHp.get());
         this.level = 1;
         this.maxLevel = 1;
     }
 
-    private long increaseHp() {
-        return (long) Math.ceil(maxHp * HP_INCREASE_RATE);
-    }
-
     @Override
     public int getHpRatio() {
-        return (int) Math.ceil((float) hp / maxHp * 100);
+        // todo
+        return 0;
     }
 
     @Override
-    public void beAttacked(long damage) {
-        hp -= damage;
+    public void beAttacked(ExpExprProperty damage) {
+        hp.subtract(damage);
     }
 
     @Override
     public boolean isAlive() {
-        return hp > 0;
+        return !hp.isZero();
     }
 
     @Override
     public void levelUp() {
-        this.maxHp = increaseHp();
-        this.hp = this.maxHp;
-        this.maxLevel = ++this.level;
+        level++;
+        maxLevel++;
+        goToLevel(level);
     }
 
     @Override
     public long yieldGold() {
-        return (long) (maxHp / 10 * Math.min(3, Math.pow(1.025f, Math.max(0, level-75))));
+        // todo
+        return 0;
+    }
+
+    @Override
+    public void goToLevel(int level) {
+        if (level > maxLevel) {
+            throw new IllegalArgumentException("desired level can not exceed max-level");
+        }
+        this.level = level;
+        if (level <= MonsterConstInt.levelBaseLine.get()) {
+            calcHp(level);
+            return;
+        }
+        calcHp2(level);
+    }
+
+    private int isBoss() {
+        // boss bonus : hp x 10
+        // boss appear if level is multiple of 5 and more than 100
+        // o.w multiple of 10
+        if (level < 100) {
+            return level % 10 == 0 ? MonsterConstInt.bossBonus.get() : 1;
+        }
+        return level % 5 == 0 ? MonsterConstInt.bossBonus.get() : 1;
+    }
+
+    private void calcHp(int level) {
+        // level : 1 ~ 140
+        // ceil(10 x (level - 1 + 1.55^(level-1)) x isBoss)
+        // todo
+    }
+
+    private void calcHp2(int level) {
+        // level : 141 ~ 500
+        // ceil(10 x (139 + 1.55^139 x 1.145^(level-140)) x isBoss)
+        // todo
+    }
+    @Override
+    public void bindToLabel(Label label) {
+        // todo
     }
 
     @Override
     public String toString() {
-        return String.format("hp: %d, level: %d", hp, level);
-    }
-
-    @Override
-    public void goToLevel(long level) {
-        this.maxHp = (long) Math.ceil(START_HP * Math.pow(1.07, level-1));
-    }
-}
-
-enum MonsterConstant {
-
-    HP_INC_RATE(1.07f);
-    private final float VALUE1;
-    private final long VALUE2;
-    MonsterConstant(float value) {
-        this.VALUE1 = value;
-        this.VALUE2 = Integer.parseInt(null);
-    }
-
-    MonsterConstant(long value) {
-        this.VALUE1 = Integer.parseInt(null);
-        this.VALUE2 = value;
-    }
-
-    public static void main(String[] args) {
-
+        return String.format("hp: %s, level: %d", hp.toString(), level);
     }
 }
