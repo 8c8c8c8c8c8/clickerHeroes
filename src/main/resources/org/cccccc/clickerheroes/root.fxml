@@ -1,56 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
-<AnchorPane prefHeight="441.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.cccccc.clickerheroes.javafx.RootController">
     <children>
-        <Pane>
+        <Pane prefHeight="100.0" prefWidth="400.0">
             <children>
-                <TextField fx:id="goldStatus" editable="false" prefHeight="55.0" prefWidth="338.0">
+                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@gold.png"/>
+                    </image>
+                </ImageView>
+                <Label fx:id="goldStatus" alignment="CENTER" prefHeight="100.0" prefWidth="400.0" text="goldStatus">
                     <font>
-                        <Font name="Consolas" size="30.0"/>
+                        <Font name="Consolas" size="35.0"/>
                     </font>
-                </TextField>
-                <TextField fx:id="monsterStatus" editable="false" layoutY="51.0" prefHeight="55.0" prefWidth="338.0">
-                    <font>
-                        <Font name="Consolas" size="30.0"/>
-                    </font>
-                </TextField>
+                </Label>
             </children>
         </Pane>
-        <ScrollPane layoutY="106.0" prefHeight="343.0" prefWidth="338.0">
+        <ScrollPane layoutY="102.0" prefHeight="500.0" prefWidth="400.0">
             <content>
-                <VBox fx:id="heroesList" prefHeight="342.0" prefWidth="325.0">
+                <VBox fx:id="heroesList" prefHeight="500.0" prefWidth="390.0">
                     <children>
-                        <HBox prefHeight="53.0" prefWidth="325.0">
+                        <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="390.0">
                             <children>
-                                <Label prefHeight="53.0" prefWidth="220.0" text="Label">
-                                    <styleClass>
-                                        <String fx:value="lbl"/>
-                                        <String fx:value="lbl-default"/>
-                                    </styleClass>
-                                </Label>
-                                <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="64.0" text="Button">
+                                <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Test Button">
                                     <styleClass>
                                         <String fx:value="btn"/>
                                         <String fx:value="btn-primary"/>
                                     </styleClass>
+                                    <HBox.margin>
+                                        <Insets right="30.0"/>
+                                    </HBox.margin>
                                 </Button>
+                                <Label prefHeight="100.0" prefWidth="260.0" text="Test Label">
+                                    <styleClass>
+                                        <String fx:value="lbl"/>
+                                        <String fx:value="lbl-default"/>
+                                    </styleClass>
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                </Label>
                             </children>
                             <styleClass>
                                 <String fx:value="h1"/>
                                 <String fx:value="btn-group-horizontal"/>
                             </styleClass>
+                            <VBox.margin>
+                                <Insets bottom="30.0"/>
+                            </VBox.margin>
                         </HBox>
                     </children>
                 </VBox>
             </content>
         </ScrollPane>
+        <Pane layoutX="400.0" prefHeight="600.0" prefWidth="300.0">
+            <children>
+                <Label fx:id="monsterStatus" alignment="CENTER" layoutY="538.0" prefHeight="60.0" prefWidth="300.0"
+                       text="monsterStatus">
+                    <font>
+                        <Font name="Consolas" size="35.0"/>
+                    </font>
+                </Label>
+                <ProgressBar layoutX="50.0" layoutY="508.0" prefHeight="30.0" prefWidth="200.0" progress="0.0"/>
+                <ImageView fitHeight="350.0" fitWidth="300.0">
+                    <image>
+                        <Image url="@monster.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
