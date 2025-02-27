@@ -1,24 +1,18 @@
 package org.cccccc.clickerheroes.javafx;
 
 import com.google.inject.Inject;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.cccccc.clickerheroes.clickerHeroes.ClickerHeroes;
 import org.cccccc.clickerheroes.clickerHeroes.ClickerHeroesTask;
+import org.cccccc.clickerheroes.javafx.gui.ClickerHeroesGui;
+import org.cccccc.clickerheroes.javafx.gui.ClickerHeroesGuiImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 
 public class RootController implements Initializable {
     @FXML
@@ -27,40 +21,32 @@ public class RootController implements Initializable {
     private Label monsterStatus;
     @FXML
     private VBox heroesList;
+    private final ClickerHeroesGui clickerHeroesGui;
+    private final ClickerHeroesTask clickerHeroesTask;
+
     @Inject
-    private ClickerHeroes clickerHeroes;
-    private ClickerHeroesTask clickerHeroesTask;
+    public RootController(ClickerHeroes clickerHeroes) {
+        this.clickerHeroesGui = new ClickerHeroesGuiImpl(clickerHeroes);
+        this.clickerHeroesTask = new ClickerHeroesTask(clickerHeroes);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.clickerHeroesTask = new ClickerHeroesTask(clickerHeroes);
         runGUI();
         initHeroesList();
         runClickerHeroes();
     }
 
     private void initHeroesList() {
-        IntStream.range(0, 20).forEach(idx -> {
-            generateHeroItem();
-        });
+        // todo 구현된 모든 Hero 다 생성하고 blind 처리할 것
+        String startingHeroName = "Cid";
+        generateHeroItem(startingHeroName);
     }
 
-    private void generateHeroItem() {
-        HBox container = new HBox();
-        container.getStyleClass().add("h1");
-        container.setMinWidth(390);
-        container.setMinHeight(100);
-        Button levelUpBtn = new Button("LevelUp");
-        levelUpBtn.getStyleClass().setAll("btn", "btn-warning");
-        levelUpBtn.setPrefHeight(100);
-        levelUpBtn.setPrefWidth(100);
-        Label heroInfo = new Label("Cid");
-        heroInfo.getStyleClass().setAll("lbl", "lbl-warning");
-        heroInfo.setPrefWidth(290);
-        heroInfo.setPrefHeight(100);
-        container.getChildren().add(heroInfo);
-        container.getChildren().add(levelUpBtn);
-        heroesList.getChildren().add(container);
+    private void generateHeroItem(String heroName) {
+        // todo heroContainer 숨기고 heroesList 를 인자로 건네기
+        HBox heroContainer = clickerHeroesGui.generateHeroContainer(heroName);
+        heroesList.getChildren().add(heroContainer);
     }
 
     private void runGUI() {
