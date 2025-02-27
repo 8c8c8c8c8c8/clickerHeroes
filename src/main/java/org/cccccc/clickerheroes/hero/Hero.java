@@ -1,6 +1,6 @@
 package org.cccccc.clickerheroes.hero;
 
-import javafx.scene.control.Label;
+import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.gold.Gold;
 
 public interface Hero {
@@ -8,5 +8,5 @@ public interface Hero {
     void learnSkill(int skillIndex);
     boolean isActive();
     long getCost(int level);
-    void bindToLabel(Label label);
+    void addDamageTo(ExpExprProperty obj);
 }
