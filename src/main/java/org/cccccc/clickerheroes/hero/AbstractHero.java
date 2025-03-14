@@ -1,78 +1,65 @@
 package org.cccccc.clickerheroes.hero;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
+import org.cccccc.clickerheroes.datatype.HeroCostProperty;
+import org.cccccc.clickerheroes.datatype.HeroDamageProperty;
 import org.cccccc.clickerheroes.gold.Gold;
-import utils.BindToLabel;
+import utils.BindToMultiLabels;
 
-public abstract class AbstractHero implements Hero, BindToLabel {
-    private final ExpExprProperty baseCost;
-    private final ExpExprProperty baseDamage;
+import java.util.Map;
 
-    protected final double LEVEL_UP_COST_INC_RATIO = 1.07f;
-    protected int level;
-    protected ExpExprProperty cost;
+public abstract class AbstractHero implements Hero, BindToMultiLabels {
+    private final IntegerProperty level;
+    private final HeroCostProperty cost;
+    private final HeroDamageProperty damage;
 
     public AbstractHero(String damage, String cost) {
         String heroName = getClass().getSimpleName();
-        this.baseCost = new ExpExprProperty(String.format("%sCost", heroName), cost);
-        this.baseDamage = new ExpExprProperty(String.format("%sDamage", heroName), damage);
-        this.level = 0;
+        this.damage = new HeroDamageProperty(heroName, damage);
+        this.cost = new HeroCostProperty(heroName, cost);
+        this.level = new SimpleIntegerProperty(0, String.format("%sLevel", heroName));
+        // starting hero
+        if (heroName.contains("Cid")) {
+            this.level.set(1);
+        }
     }
 
     @Override
     public void levelUp(Gold gold, int level) {
-        long cost = getCost(level);
-        if (gold.beSpent(cost)) {
-            this.level += level;
-            updateDamage();
+        ExpExprProperty heroCost = getCost(level);
+        if (gold.beSpent(heroCost)) {
+            this.level.add(level);
+            this.damage.levelUp(level);
+            this.cost.levelUp(level);
         }
-    }
-
-    private void updateDamage() {
-//        damage = baseDamage * level;
-        // todo
-    }
-
-    @Override
-    public String toString() {
-        // todo
-        return super.toString();
-//        return String.format("damage: %d, level: %d", damage, level);
     }
 
     @Override
     public boolean isActive() {
-        return level > 0;
-    }
-
-    protected long levelUpCostFormula(int level) {
-        // C = BASE_COST * (LEVEL_UP_COST_INC_RATIO ^ level - 1) / (LEVEL_UP_COST_INC_RATIO - 1)
-//        return baseCost * (long) Math.floor(
-//                (Math.pow(LEVEL_UP_COST_INC_RATIO, level) - 1) / (LEVEL_UP_COST_INC_RATIO - 1)
-//        );
-        // todo
-        return 0;
+        return level.get() > 0;
     }
 
     @Override
-    public long getCost(int level) {
-        long zeroToDesiredLvCost = levelUpCostFormula(this.level + level);
-        if (this.level > 0) {
-            long zeroToCurrentLvCost = levelUpCostFormula(this.level);
-            long currentToDesiredLvCost = zeroToDesiredLvCost - zeroToCurrentLvCost;
-            return currentToDesiredLvCost;
-        }
-        return zeroToDesiredLvCost;
+    public ExpExprProperty getCost(int level) {
+        int currentLevel = this.level.get();
+        int targetLevel = currentLevel + level;
+        return cost.getCost(currentLevel, targetLevel);
     }
 
     @Override
-    public void bindToLabel(Label label) {
-        // todo
+    public void bind(Map<String, Label> labelMap) {
+        damage.bind(labelMap);
+        Label costLabel = labelMap.get("cost");
+        costLabel.textProperty().bind(cost.asString());
+        Label levelLabel = labelMap.get("level");
+        levelLabel.textProperty().bind(level.asString());
     }
 
     @Override
-    public void addDamageTo(ExpExprProperty obj) {
-        // todo
+    public void addDamageTo(ExpExprProperty allDamage) {
+        allDamage.customAdd(damage);
     }
 }
