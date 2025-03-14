@@ -6,39 +6,40 @@ import utils.BindToMultiLabels;
 import java.util.Map;
 
 public class HeroDamageProperty extends ExpExprProperty implements BindToMultiLabels {
-    private final ExpExprProperty damage;
-    public HeroDamageProperty(String name) {
+    private final ExpExprProperty baseDamage = new ExpExprProperty("baseDamage");
+
+    public HeroDamageProperty(String name) throws InstantiationException {
         super(name);
-        damage = new ExpExprProperty(damagePropertyNaming(name));
+        throw new InstantiationException();
     }
 
     public HeroDamageProperty(String name, String value) {
-        super(name, value);
-        damage = new ExpExprProperty(damagePropertyNaming(name), value);
+        super(String.format("%sDamage", name), value);
+        baseDamage.set(this);
+        this.reset();
     }
 
-    public HeroDamageProperty(String name, int val) {
+    public HeroDamageProperty(String name, int val) throws InstantiationException {
         super(name, val);
-        damage = new ExpExprProperty(damagePropertyNaming(name), val);
+        throw new InstantiationException();
     }
 
-    private String damagePropertyNaming(String name) {
-        return name.replace("baseDamage", "Damage");
+    public void levelUp(int level) {
+        ExpExprProperty damageToAdd = customMultiply(baseDamage, level);
+        this.customAdd(damageToAdd);
     }
 
-    public void update(int level) {
-        damage.customMultiply(level);
-    }
-
-    public void increase(double val) {
-        this.customMultiply(val);
+    public void upgrade(double val, int currentLevel) {
+        baseDamage.customMultiply(val);
+        this.set(baseDamage);
+        this.customMultiply(currentLevel);
     }
 
     @Override
     public void bind(Map<String, Label> labelMap) {
-        Label baseDamageLabel = labelMap.get("baseDamage");
-        baseDamageLabel.textProperty().bind(this.asString());
         Label damageLabel = labelMap.get("damage");
-        damageLabel.textProperty().bind(damage.asString());
+        damageLabel.textProperty().bind(this.asString());
+        Label baseDamageLabel = labelMap.get("baseDamage");
+        baseDamageLabel.textProperty().bind(baseDamage.asString());
     }
 }
