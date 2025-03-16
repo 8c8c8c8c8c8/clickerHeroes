@@ -3,10 +3,9 @@ package org.cccccc.clickerheroes.monster;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 
 public interface Monster {
-    int getHpRatio();
     void beAttacked(ExpExprProperty damage);
     boolean isAlive();
     void levelUp();
-    long yieldGold();
+    ExpExprProperty dropGold();
     void goToLevel(int level);
 }
