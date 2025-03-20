@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.monster.Monster;
-import utils.BindToMultiLabels;
+import utils.BindToFXML;
 
 import java.util.Map;
 
-public class GoldImpl implements Gold, BindToMultiLabels {
+public class GoldImpl implements Gold, BindToFXML {
     private final ExpExprProperty gold;
 
     @Inject
@@ -17,7 +17,7 @@ public class GoldImpl implements Gold, BindToMultiLabels {
     }
 
     @Override
-    public boolean beSpent(ExpExprProperty cost) {
+    public boolean spend(ExpExprProperty cost) {
         if (isMoreThanCost(cost)) {
             gold.customSubtract(cost);
             return true;
@@ -26,8 +26,8 @@ public class GoldImpl implements Gold, BindToMultiLabels {
     }
 
     @Override
-    public void beEarned(Monster monster) {
-        ExpExprProperty income = monster.yieldGold();
+    public void addDroppedGold(Monster monster) {
+        ExpExprProperty income = monster.dropGold();
         gold.customAdd(income);
     }
 
@@ -36,16 +36,11 @@ public class GoldImpl implements Gold, BindToMultiLabels {
     }
 
     @Override
-    public void bind(Map<String, Label> labelMap) {
-        Label label = labelMap.getOrDefault("gold", null);
+    public void bind(Map<String, Object> nameSpace) {
+        Label label = (Label) nameSpace.getOrDefault("gold", null);
         if (label == null) {
             throw new NullPointerException("gold label not exist");
         }
         label.textProperty().bind(gold.asString());
-    }
-
-    @Override
-    public String toString() {
-        return gold.toString();
     }
 }
