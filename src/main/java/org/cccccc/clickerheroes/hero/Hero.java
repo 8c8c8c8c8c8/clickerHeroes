@@ -7,6 +7,6 @@ public interface Hero {
     void levelUp(Gold gold, int level);
     void learnSkill(int skillIndex);
     boolean isActive();
-    long getCost(int level);
-    void addDamageTo(ExpExprProperty obj);
+    ExpExprProperty getCost(int level);
+    void addDamageTo(ExpExprProperty allDamage);
 }
