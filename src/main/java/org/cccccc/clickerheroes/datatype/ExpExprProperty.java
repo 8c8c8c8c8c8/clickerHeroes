@@ -62,6 +62,12 @@ public class ExpExprProperty extends LongPropertyBase {
         }
     }
 
+    public void scaling() {
+        Scale scale = new Scale(real, exp);
+        this.real = scale.getReal();
+        this.exp = scale.getExp();
+    }
+
     public boolean isZero() {
         return real == 0;
     }
@@ -72,7 +78,11 @@ public class ExpExprProperty extends LongPropertyBase {
     }
 
     public void customMultiply(int val) {
-        ExpExprProperty temp = new ExpExprProperty(val);
+        this.customMultiply((double) val);
+    }
+
+    public void customMultiply(double val) {
+        ExpExprProperty temp = new ExpExprProperty("temp", val);
         this.customMultiply(temp);
     }
 
@@ -148,8 +158,14 @@ public class ExpExprProperty extends LongPropertyBase {
         this.exp += scale.getExp();
     }
 
+    public void customDivide(double val) {
+        ExpExprProperty divisor = new ExpExprProperty("divisor", val);
+        ExpExprProperty result = customDivide(this, divisor);
+        this.real = result.real;
+        this.exp = result.exp;
+    }
+
     public static ExpExprProperty customDivide(ExpExprProperty obj1, ExpExprProperty obj2) {
-        // todo
         double real = obj1.real / obj2.real;
         int exp = obj1.exp - obj2.exp;
         Scale scale = new Scale(real, exp);
@@ -160,6 +176,11 @@ public class ExpExprProperty extends LongPropertyBase {
         Scale powered = power(new Scale(this.real, this.exp), val);
         this.real = powered.getReal();
         this.exp = powered.getExp();
+    }
+
+    protected void set(ExpExprProperty obj) {
+        this.real = obj.real;
+        this.exp = obj.exp;
     }
 
     private Scale power(Scale powered, int val) {
