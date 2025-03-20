@@ -4,9 +4,11 @@ import com.google.inject.Inject;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.hero.heroes.Heroes;
 import org.cccccc.clickerheroes.monster.Monster;
+import utils.BindToFXML;
 
-public class ClickerHeroesImpl implements ClickerHeroes {
-    private boolean isRunning = true;
+import java.util.Map;
+
+public class ClickerHeroesImpl implements ClickerHeroes, BindToFXML {
     private final Monster monster;
     private final Gold gold;
     private final Heroes heroes;
@@ -16,26 +18,6 @@ public class ClickerHeroesImpl implements ClickerHeroes {
         this.monster = monster;
         this.gold = gold;
         this.heroes = heroes;
-    }
-
-    @Override
-    public String getGoldStatus() {
-        return gold.toString();
-    }
-
-    @Override
-    public void start() {
-        isRunning = true;
-    }
-
-    @Override
-    public void close() {
-        isRunning = false;
-    }
-
-    @Override
-    public boolean isRunning() {
-        return isRunning;
     }
 
     @Override
@@ -49,16 +31,22 @@ public class ClickerHeroesImpl implements ClickerHeroes {
     }
 
     @Override
-    public String getMonsterStatus() {
-        return monster.toString();
-    }
-
-    @Override
     public void runCycle() {
         heroes.attack(monster);
         if (!monster.isAlive()) {
-            gold.beEarned(monster);
+            gold.addDroppedGold(monster);
             monster.levelUp();
         }
+    }
+
+    private void bind(BindToFXML obj, Map<String, Object> nameSpace) {
+        obj.bind(nameSpace);
+    }
+
+    @Override
+    public void bind(Map<String, Object> nameSpace) {
+        bind((BindToFXML) monster, nameSpace);
+        bind((BindToFXML) gold, nameSpace);
+        bind((BindToFXML) heroes, nameSpace);
     }
 }
