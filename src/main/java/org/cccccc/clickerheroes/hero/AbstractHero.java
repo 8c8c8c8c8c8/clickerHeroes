@@ -7,17 +7,17 @@ import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.datatype.HeroCostProperty;
 import org.cccccc.clickerheroes.datatype.HeroDamageProperty;
 import org.cccccc.clickerheroes.gold.Gold;
-import utils.BindToMultiLabels;
+import utils.BindToFXML;
 
 import java.util.Map;
 
-public abstract class AbstractHero implements Hero, BindToMultiLabels {
+public abstract class AbstractHero implements Hero, BindToFXML {
     private final IntegerProperty level;
     private final HeroCostProperty cost;
     private final HeroDamageProperty damage;
 
     public AbstractHero(String damage, String cost) {
-        String heroName = getClass().getSimpleName();
+        String heroName = getHeroName();
         this.damage = new HeroDamageProperty(heroName, damage);
         this.cost = new HeroCostProperty(heroName, cost);
         this.level = new SimpleIntegerProperty(0, String.format("%sLevel", heroName));
@@ -27,10 +27,14 @@ public abstract class AbstractHero implements Hero, BindToMultiLabels {
         }
     }
 
+    private String getHeroName() {
+        return getClass().getSimpleName();
+    }
+
     @Override
     public void levelUp(Gold gold, int level) {
         ExpExprProperty heroCost = getCost(level);
-        if (gold.beSpent(heroCost)) {
+        if (gold.spend(heroCost)) {
             this.level.add(level);
             this.damage.levelUp(level);
             this.cost.levelUp(level);
@@ -50,11 +54,12 @@ public abstract class AbstractHero implements Hero, BindToMultiLabels {
     }
 
     @Override
-    public void bind(Map<String, Label> labelMap) {
-        damage.bind(labelMap);
-        Label costLabel = labelMap.get("cost");
+    public void bind(Map<String, Object> nameSpace) {
+        damage.bind(nameSpace);
+        String heroName = getHeroName();
+        Label costLabel = (Label) nameSpace.get(String.format("%sCost", heroName));
         costLabel.textProperty().bind(cost.asString());
-        Label levelLabel = labelMap.get("level");
+        Label levelLabel = (Label) nameSpace.get(String.format("%sLevel", heroName));
         levelLabel.textProperty().bind(level.asString());
     }
 
