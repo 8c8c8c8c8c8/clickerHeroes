@@ -3,14 +3,16 @@ package org.cccccc.clickerheroes.hero.heroes;
 import com.google.inject.Inject;
 import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
-import org.cccccc.clickerheroes.datatype.ExpExprPropertyFactory;
+import org.cccccc.clickerheroes.datatype.factory.ExpExprPropertyFactory;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.monster.Monster;
-import utils.BindToLabel;
+import utils.BindToFXML;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-public class HeroesImpl implements Heroes, BindToLabel {
+public class HeroesImpl implements Heroes, BindToFXML {
     private final ExpExprProperty allHeroesDamage;
 
     @Inject
@@ -31,19 +33,38 @@ public class HeroesImpl implements Heroes, BindToLabel {
 
     @Override
     public void attack(Monster monster) {
-        // todo
+        monster.beAttacked(allHeroesDamage);
     }
 
     @Override
-    public void bindToLabel(Label label) {
-        // todo
+    public void bind(Map<String, Object> nameSpace) {
+        Label allHeroDamageLabel = (Label) nameSpace.get("allHeroDamage");
+        allHeroDamageLabel.textProperty().bind(allHeroesDamage.asString());
+        Arrays.stream(HeroesList.values()).forEach(hero -> {
+            ((BindToFXML) hero.hero()).bind(nameSpace);
+        });
     }
 
     @Override
     public void updateDamage() {
         allHeroesDamage.reset();
         Arrays.stream(HeroesList.values()).forEach(hero -> {
-            // todo
+            hero.hero().addDamageTo(allHeroesDamage);
         });
+    }
+
+    @Override
+    public void learnSkill(String name, int skillIndex) {
+        for (HeroesList hero : HeroesList.values()) {
+            if (hero.name().equals(name)) {
+                hero.hero().learnSkill(skillIndex);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public List<String> getAllHeroNames() {
+        return Arrays.stream(HeroesList.values()).map(Enum::name).toList();
     }
 }
