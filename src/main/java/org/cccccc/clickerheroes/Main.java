@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.cccccc.clickerheroes.di.DIModule;
+import org.cccccc.clickerheroes.javafx.RootController;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 
@@ -27,6 +28,8 @@ public class Main extends Application {
         Injector injector = Guice.createInjector(new DIModule());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("root.fxml"));
         fxmlLoader.setControllerFactory(injector::getInstance);
+        RootController controller = fxmlLoader.getController();
+        controller.setNameSpace(fxmlLoader.getNamespace());
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         stage.setScene(scene);
