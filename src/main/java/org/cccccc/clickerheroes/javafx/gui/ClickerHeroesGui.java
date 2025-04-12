@@ -1,7 +1,9 @@
 package org.cccccc.clickerheroes.javafx.gui;
 
-import javafx.scene.layout.HBox;
+import java.util.Map;
 
 public interface ClickerHeroesGui {
-    HBox generateHeroContainer(String heroName);
+    void setNameSpace(Map<String, Object> nameSpace);
+
+    void run();
 }
