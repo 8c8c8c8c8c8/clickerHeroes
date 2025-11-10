@@ -6,11 +6,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.datatype.MonsterHpProperty;
-import utils.BindToMultiLabels;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Map;
 
-public class MonsterImpl implements Monster, BindToMultiLabels {
+public class MonsterImpl implements Monster, BindToFXML {
     private final MonsterHpProperty hp; // current hp
     private final IntegerProperty level;
     private final IntegerProperty maxLevel;
@@ -98,11 +98,11 @@ public class MonsterImpl implements Monster, BindToMultiLabels {
     }
 
     @Override
-    public void bind(Map<String, Label> labelMap) {
-        hp.bind(labelMap);
-        Label monsterLevelLabel = labelMap.get("monsterLevel");
+    public void bind(Map<String, Object> nameSpace) {
+        hp.bind(nameSpace);
+        Label monsterLevelLabel = (Label) nameSpace.get("monsterLevel");
         monsterLevelLabel.textProperty().bind(level.asString());
-        Label monsterMaxLevelLabel = labelMap.get("monsterMaxLevel");
+        Label monsterMaxLevelLabel = (Label) nameSpace.get("monsterMaxLevel");
         monsterLevelLabel.textProperty().bind(maxLevel.asString());
     }
 }

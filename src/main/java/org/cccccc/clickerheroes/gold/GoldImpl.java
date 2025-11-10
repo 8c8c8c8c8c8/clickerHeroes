@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import javafx.scene.control.Label;
 import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.monster.Monster;
-import utils.BindToFXML;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Map;
 

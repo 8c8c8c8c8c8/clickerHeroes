@@ -1,11 +1,11 @@
 package org.cccccc.clickerheroes.datatype;
 
 import javafx.scene.control.Label;
-import utils.BindToMultiLabels;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Map;
 
-public class HeroDamageProperty extends ExpExprProperty implements BindToMultiLabels {
+public class HeroDamageProperty extends ExpExprProperty implements BindToFXML {
     private final ExpExprProperty baseDamage = new ExpExprProperty("baseDamage");
 
     public HeroDamageProperty(String name) throws InstantiationException {
@@ -36,10 +36,10 @@ public class HeroDamageProperty extends ExpExprProperty implements BindToMultiLa
     }
 
     @Override
-    public void bind(Map<String, Label> labelMap) {
-        Label damageLabel = labelMap.get("damage");
+    public void bind(Map<String, Object> nameSpace) {
+        Label damageLabel = (Label) nameSpace.get(getName());
         damageLabel.textProperty().bind(this.asString());
-        Label baseDamageLabel = labelMap.get("baseDamage");
-        baseDamageLabel.textProperty().bind(baseDamage.asString());
+//        Label baseDamageLabel = (Label) nameSpace.get("baseDamage");
+//        baseDamageLabel.textProperty().bind(baseDamage.asString());
     }
 }

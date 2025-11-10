@@ -9,18 +9,10 @@ public class ClickerHeroesTask extends Task<Void> {
         this.clickerHeroes = clickerHeroes;
     }
 
-    private String concatMessages() {
-        return String.format("%s$%s",
-                clickerHeroes.getMonsterStatus(),
-                clickerHeroes.getGoldStatus());
-    }
-
     @Override
     protected Void call() throws Exception {
         int oneSecond = 1000; // run-cycle per one second
-        clickerHeroes.start();
-        while (clickerHeroes.isRunning()) {
-            updateMessage(concatMessages());
+        while (true) {
             clickerHeroes.runCycle();
             try {
                 Thread.sleep(oneSecond);
@@ -28,6 +20,5 @@ public class ClickerHeroesTask extends Task<Void> {
                 throw new RuntimeException(e);
             }
         }
-        return null;
     }
 }

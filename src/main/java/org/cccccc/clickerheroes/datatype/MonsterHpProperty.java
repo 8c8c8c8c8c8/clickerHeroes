@@ -1,17 +1,18 @@
 package org.cccccc.clickerheroes.datatype;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import org.cccccc.clickerheroes.monster.MonsterConstDouble;
 import org.cccccc.clickerheroes.monster.MonsterConstInt;
-import utils.BindToMultiLabels;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Map;
 
-public class MonsterHpProperty extends ExpExprProperty implements BindToMultiLabels {
+public class MonsterHpProperty extends ExpExprProperty implements BindToFXML {
     // starting 100%
-    private final IntegerProperty hpRatio = new SimpleIntegerProperty(100, "hpRatio");
+    private final DoubleProperty hpRatio = new SimpleDoubleProperty(1.0, "hpRatio");
     private final ExpExprProperty maxHp = new ExpExprProperty("maxHp", MonsterConstInt.baseHp.get());
     private ExpExprProperty hpCache = null;
 
@@ -31,16 +32,16 @@ public class MonsterHpProperty extends ExpExprProperty implements BindToMultiLab
         super(name, val);
     }
 
-    private int calculateHpRatio() {
+    private double calculateHpRatio() {
         ExpExprProperty dividedResult = ExpExprProperty.customDivide(this, this.maxHp);
         double result = dividedResult.real * dividedResult.exp;
         return roundDown(result);
     }
 
-    private int roundDown(double val) {
+    private double roundDown(double val) {
         // round down val to two decimal places
         double twoDecimal = 1e2;
-        return (int) Math.floor(val * twoDecimal);
+        return Math.floor(val * twoDecimal) / twoDecimal;
     }
 
     public void calculateHp(int level, boolean isBoss) {
@@ -54,7 +55,8 @@ public class MonsterHpProperty extends ExpExprProperty implements BindToMultiLab
     @Override
     public void customSubtract(ExpExprProperty obj) {
         super.customSubtract(obj);
-        int hpRatio = calculateHpRatio();
+        double hpRatio = calculateHpRatio();
+        assert hpRatio <= 1.0: "hp ratio over 1";
         this.hpRatio.set(hpRatio);
     }
 
@@ -92,10 +94,10 @@ public class MonsterHpProperty extends ExpExprProperty implements BindToMultiLab
     }
 
     @Override
-    public void bind(Map<String, Label> labelMap) {
-        Label hpRatioLabel = labelMap.get("hpRatio");
-        hpRatioLabel.textProperty().bind(hpRatio.asString());
-        Label currentHpLabel = labelMap.get("hp");
+    public void bind(Map<String, Object> nameSpace) {
+        ProgressBar hpRatioBar = (ProgressBar) nameSpace.get("hpRatio");
+        hpRatioBar.progressProperty().bind(hpRatio);
+        Label currentHpLabel = (Label) nameSpace.get("hp");
         currentHpLabel.textProperty().bind(this.asString());
     }
 }

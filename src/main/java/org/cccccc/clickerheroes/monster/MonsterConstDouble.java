@@ -1,8 +1,8 @@
 package org.cccccc.clickerheroes.monster;
 
-enum MonsterConstDouble {
-    hpInc(1.55f),
-    hpInc2(1.145f),
+public enum MonsterConstDouble {
+    hpInc(1.55),
+    hpInc2(1.145),
     ;
 
     private final double value;
@@ -11,7 +11,7 @@ enum MonsterConstDouble {
         this.value = value;
     }
 
-    double get() {
+    public double get() {
         return value;
     }
 }

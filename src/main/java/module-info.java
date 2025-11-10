@@ -3,6 +3,7 @@ module org.cccccc.clickerheroes {
     requires javafx.controls;
     requires com.google.guice;
     requires org.kordamp.bootstrapfx.core;
+    requires javafx.graphics;
 
     opens org.cccccc.clickerheroes to javafx.fxml;
     exports org.cccccc.clickerheroes;
@@ -13,4 +14,6 @@ module org.cccccc.clickerheroes {
     exports org.cccccc.clickerheroes.monster;
     exports org.cccccc.clickerheroes.hero.heroes;
     exports org.cccccc.clickerheroes.datatype;
+    exports org.cccccc.clickerheroes.datatype.factory;
+    exports org.cccccc.clickerheroes.javafx.gui;
 }

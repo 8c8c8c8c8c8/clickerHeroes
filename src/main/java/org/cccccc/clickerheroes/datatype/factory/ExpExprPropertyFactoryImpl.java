@@ -1,4 +1,6 @@
-package org.cccccc.clickerheroes.datatype;
+package org.cccccc.clickerheroes.datatype.factory;
+
+import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 
 public class ExpExprPropertyFactoryImpl implements ExpExprPropertyFactory {
     @Override

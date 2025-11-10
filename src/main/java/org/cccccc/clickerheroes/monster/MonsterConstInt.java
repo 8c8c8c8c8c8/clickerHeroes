@@ -1,6 +1,6 @@
 package org.cccccc.clickerheroes.monster;
 
-enum MonsterConstInt {
+public enum MonsterConstInt {
     baseHp(10),
     levelBaseLine(140),
     bossBonus(10),
@@ -12,7 +12,7 @@ enum MonsterConstInt {
         this.value = value;
     }
 
-    int get() {
+    public int get() {
         return value;
     }
 }

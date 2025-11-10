@@ -7,7 +7,7 @@ import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.datatype.HeroCostProperty;
 import org.cccccc.clickerheroes.datatype.HeroDamageProperty;
 import org.cccccc.clickerheroes.gold.Gold;
-import utils.BindToFXML;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Map;
 

@@ -13,3 +13,7 @@
   - 모든 monster class들이 이 class를 상속 받는다.
   - beAttacked
     - hero들로 부터 공격을 받아 monster hp가 감소한다.
+
+> copyright free  
+> - [monster](https://pixabay.com/vectors/monster-hairy-halloween-creature-3764868/)
+> - [gold](https://pixabay.com/illustrations/game-coin-gold-money-cash-win-3468135/)

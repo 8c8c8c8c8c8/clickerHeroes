@@ -6,7 +6,7 @@ import org.cccccc.clickerheroes.datatype.ExpExprProperty;
 import org.cccccc.clickerheroes.datatype.factory.ExpExprPropertyFactory;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.monster.Monster;
-import utils.BindToFXML;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
 import java.util.Arrays;
 import java.util.List;

@@ -4,8 +4,9 @@ import com.google.inject.Inject;
 import org.cccccc.clickerheroes.gold.Gold;
 import org.cccccc.clickerheroes.hero.heroes.Heroes;
 import org.cccccc.clickerheroes.monster.Monster;
-import utils.BindToFXML;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
+import java.util.List;
 import java.util.Map;
 
 public class ClickerHeroesImpl implements ClickerHeroes, BindToFXML {
@@ -48,5 +49,10 @@ public class ClickerHeroesImpl implements ClickerHeroes, BindToFXML {
         bind((BindToFXML) monster, nameSpace);
         bind((BindToFXML) gold, nameSpace);
         bind((BindToFXML) heroes, nameSpace);
+    }
+
+    @Override
+    public List<String> getAllHeroNames() {
+        return heroes.getAllHeroNames();
     }
 }

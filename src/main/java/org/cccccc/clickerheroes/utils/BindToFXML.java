@@ -1,4 +1,4 @@
-package utils;
+package org.cccccc.clickerheroes.utils;
 
 import java.util.Map;
 

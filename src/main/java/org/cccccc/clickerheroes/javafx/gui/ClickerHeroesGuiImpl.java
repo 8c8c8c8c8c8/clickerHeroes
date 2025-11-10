@@ -5,15 +5,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.cccccc.clickerheroes.clickerHeroes.ClickerHeroes;
-import utils.BindToFXML;
+import org.cccccc.clickerheroes.utils.BindToFXML;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ClickerHeroesGuiImpl implements ClickerHeroesGui {
     private final ClickerHeroes clickerHeroes;
@@ -31,6 +38,7 @@ public class ClickerHeroesGuiImpl implements ClickerHeroesGui {
             btn.setVisible(false);
             stackPane.getChildren().add(btn);
         });
+        HBox.setMargin(stackPane, new Insets(0, 10, 0, 0));
         return stackPane;
     }
 
@@ -50,17 +58,61 @@ public class ClickerHeroesGuiImpl implements ClickerHeroesGui {
         this.nameSpace.put(name, obj);
     }
 
+    private CustomPane generateDpsUpgradePane(String heroName) {
+        CustomPane dpsUpgradePane = new CustomPane();
+        CustomLabel dpsLabel = new CustomLabel();
+        addToNameSpace(String.format("%sDamage", heroName), dpsLabel);
+        CustomGridPane upgradeGridPane = new CustomGridPane();
+        addUpgradeImageToGridPane(upgradeGridPane, heroName);
+        dpsUpgradePane.getChildren().addAll(dpsLabel, upgradeGridPane);
+        return dpsUpgradePane;
+    }
+
+    private List<String> getHeroUpgradePath(String heroName) {
+        String path = Objects.requireNonNull(
+                getClass().getResource(
+                        String.format("/images/hero/%s/upgrades", heroName.toLowerCase())))
+                .getPath();
+        File folder = new File(path);
+        return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
+                .map(File::getPath).toList();
+    }
+
+    public void addUpgradeImageToGridPane(GridPane gridPane, String heroName) {
+        List<String> upgradePath = getHeroUpgradePath(heroName);
+        IntStream.range(0, upgradePath.size())
+                .mapToObj(i -> Map.entry(i, upgradePath.get(i)))
+                .forEach(entry -> {
+                    int colIndex = entry.getKey();
+                    String path = entry.getValue();
+                    System.out.println(path);
+                    System.out.println(getClass().getResource(path));
+                    CustomImage upgradeImage = new CustomImage();
+                    upgradeImage.setUpgradeImage(path);
+                    gridPane.add(upgradeImage, colIndex, 0);
+                });
+    }
+
+    private CustomPane generateNameLevelPane(String heroName) {
+        CustomPane nameLevelPane = new CustomPane();
+        CustomLabel nameLabel = new CustomLabel(heroName);
+        CustomLabel levelLabel = new CustomLabel();
+        addToNameSpace(String.format("%sLevel", heroName), levelLabel);
+        nameLevelPane.getChildren().addAll(nameLabel, levelLabel);
+        return nameLevelPane;
+    }
+
     private void addAllHeroesToContainer() {
         // todo
         List<String> heroNameList = clickerHeroes.getAllHeroNames();
         VBox heroContainers = (VBox) nameSpace.get("heroList");
         heroNameList.forEach(heroName -> {
             HBox heroContainer = new HeroContainer();
-            CustomLabel heroNameLabel = new CustomLabel(heroName);
-            heroNameLabel.setHeroContainerStyle();
             StackPane btnStackPane = generateLevelUpBtnStackPane(heroName);
-
-            heroContainer.getChildren().addAll(heroNameLabel, btnStackPane);
+            CustomPane dpsUpgradePane = generateDpsUpgradePane(heroName);
+            CustomPane nameLevelPane = generateNameLevelPane(heroName);
+            CustomImage heroImage = new CustomImage();
+            heroContainer.getChildren().addAll(btnStackPane, dpsUpgradePane, nameLevelPane, heroImage);
             heroContainers.getChildren().add(heroContainer);
         });
     }
@@ -77,20 +129,27 @@ public class ClickerHeroesGuiImpl implements ClickerHeroesGui {
         this.nameSpace = nameSpace;
     }
 
-    private static class CustomGridPane extends GridPane {
-        public CustomGridPane() {
+    private static class CustomPane extends Pane {
+        public CustomPane() {
             super();
         }
 
-        private void setDamageUpgradeContainerStyle() {
+        private void setDPSUpgradeStyle() {
             // todo
         }
 
-        private void setNameLevelContainerStyle() {
+        private void setNameLevelStyle() {
             // todo
         }
+    }
 
-        private void setUpgradeContainerStyle() {
+    private static class CustomGridPane extends GridPane {
+        public CustomGridPane() {
+            super();
+            setStyle();
+        }
+
+        private void setStyle() {
             // todo
         }
     }
@@ -100,35 +159,31 @@ public class ClickerHeroesGuiImpl implements ClickerHeroesGui {
             super();
         }
 
-        private void setImage(String fileName) {
-            Image heroImage = new Image(String.valueOf(getClass().getResource(fileName)));
-            this.setImage(heroImage);
-        }
-
-        private void setHeroImage(String heroName) {
+        private void setHeroImage(String path) {
             // todo set Hero Image style
-            String fileName = String.format("%s.png", heroName);
-            setImage(fileName);
+            this.setImage(new Image(path));
         }
 
-        private void setUpgradeImage(String heroName) {
+        private void setUpgradeImage(String path) {
             // todo set hero upgrade image style
-            String fileName = String.format("%s.jpg", heroName);
-            setImage(fileName);
+            this.setImage(new Image(Objects.requireNonNull(getClass().getResource(path)).getPath()));
         }
     }
 
     private static class CustomLabel extends Label {
-        public CustomLabel(String s) {
-            super(s);
+        // dps, hero name, level
+        public CustomLabel() {
+            super();
+            setStyle();
         }
 
-        private void setHeroContainerStyle() {
-            // todo hero container 안에 label style 정의
-//            setPrefWidth(GUIConstant.LABEL.getWidth());
-//            setPrefHeight(GUIConstant.LABEL.getHeight());
-//            getStyleClass().setAll(GUIStyle.getLabelStyle());
-//            setPadding(new Insets(5));
+        public CustomLabel(String s) {
+            super(s);
+            setStyle();
+        }
+
+        private void setStyle() {
+            // todo
         }
     }
 

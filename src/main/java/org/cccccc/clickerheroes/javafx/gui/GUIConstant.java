@@ -12,11 +12,11 @@ enum GUIConstant {
         this.height = height;
     }
 
-    public int getWidth() {
+    int getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 }

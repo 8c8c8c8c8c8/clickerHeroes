@@ -23,7 +23,15 @@ application {
     mainClass = 'org.cccccc.clickerheroes.Main'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation 'com.google.inject:guice:5.0.1'
     implementation 'org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0'
+
+    testImplementation "org.mockito:mockito-junit-jupiter:5.11.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.0'
 }
